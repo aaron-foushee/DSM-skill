@@ -62,7 +62,7 @@ All pills share this structure:
 
 | Status | Background | Border | Text/Icon Color | FA Icon | FA Style |
 |--------|-----------|--------|----------------|---------|----------|
-| To Do | `rgba(0,0,0,0.08)` | `transparent` | `rgba(0,0,0,0.87)` | `fa-pause` | solid |
+| To Do | `rgba(0,0,0,0.08)` | `transparent` | `rgba(0,0,0,0.87)` | *(none)* | — |
 | In Progress | `#bfe8fa` | `#80d1f5` | `#0a5183` | `fa-play` | solid |
 | Complete | `#ffffff` | `#ddeee2` | `#416862` | `fa-circle-check` | solid |
 

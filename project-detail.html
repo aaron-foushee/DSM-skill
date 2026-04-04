@@ -226,29 +226,32 @@
     gap: 16px;
     margin-bottom: 4px;
   }
-  .field-group { display: flex; flex-direction: column; gap: 6px; }
-  .field-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--gz-text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .field-label .warn-icon { color: var(--gz-error); display: flex; }
-  .field-input-wrap {
-    height: 36px;
+  .field-group { position: relative; }
+
+  /* MUI outlined input */
+  .mui-field {
+    position: relative;
+    height: 40px;
     border: 1px solid var(--gz-border);
     border-radius: var(--gz-radius);
-    padding: 0 10px;
-    font-size: 13px;
     background: white;
     display: flex;
     align-items: center;
+    padding: 0 10px;
     gap: 6px;
+    transition: border-color 0.2s;
+    cursor: pointer;
   }
-  .field-input-wrap select,
-  .field-input-wrap input {
+  .mui-field:hover { border-color: var(--gz-text-primary); }
+  .mui-field.focused,
+  .mui-field:focus-within {
+    border-color: var(--gz-primary);
+    border-width: 2px;
+    padding: 0 9px;
+  }
+
+  .mui-field select,
+  .mui-field input {
     border: none;
     outline: none;
     font-size: 13px;
@@ -257,7 +260,71 @@
     background: transparent;
     flex: 1;
     height: 100%;
+    width: 100%;
   }
+
+  /* Floating label */
+  .mui-label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--gz-text-secondary);
+    pointer-events: none;
+    transition: all 0.15s ease;
+    background: white;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  /* Float up when focused or has value */
+  .mui-field.has-value .mui-label,
+  .mui-field:focus-within .mui-label {
+    top: 0;
+    font-size: 11px;
+    color: var(--gz-text-secondary);
+  }
+  .mui-field:focus-within .mui-label {
+    color: var(--gz-primary);
+    left: 9px;
+  }
+  /* Date inputs always show native UI — keep label floated */
+  .mui-field-date .mui-label {
+    top: 0;
+    font-size: 11px;
+  }
+  .mui-field-date:focus-within .mui-label {
+    color: var(--gz-primary);
+    left: 9px;
+  }
+
+  .warn-icon { color: var(--gz-error); display: flex; font-size: 14px; }
+
+  /* Textarea variant */
+  .mui-field-textarea {
+    height: auto;
+    padding: 0;
+    align-items: stretch;
+  }
+  .mui-field-textarea .note-textarea {
+    border: none;
+    margin-bottom: 0;
+    border-radius: var(--gz-radius);
+  }
+  .mui-field-textarea .note-textarea:hover,
+  .mui-field-textarea .note-textarea:focus { border: none; padding: 10px 12px; }
+  .mui-field-textarea .mui-label { left: 12px; top: 12px; transform: none; }
+  .mui-field-textarea.has-value .mui-label,
+  .mui-field-textarea:focus-within .mui-label {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 11px;
+    left: 10px;
+  }
+  .mui-field-textarea:focus-within .mui-label { color: var(--gz-primary); }
+
   .field-clear-btn {
     background: none;
     border: none;
@@ -266,6 +333,7 @@
     display: flex;
     align-items: center;
     padding: 0;
+    z-index: 1;
   }
 
   /* ─── Two-column layout ─── */
@@ -436,7 +504,10 @@
     font-family: var(--gz-font);
     color: var(--gz-text-primary);
     outline: none;
+    transition: border-color 0.2s;
   }
+  .task-desc-input:hover { border-color: var(--gz-text-primary); }
+  .task-desc-input:focus { border-color: var(--gz-primary); border-width: 2px; padding: 0 11px; }
   .task-desc-input::placeholder { color: var(--gz-text-disabled); }
   .task-date-wrap {
     height: 36px;
@@ -449,7 +520,10 @@
     align-items: center;
     gap: 6px;
     min-width: 150px;
+    transition: border-color 0.2s;
   }
+  .task-date-wrap:hover { border-color: var(--gz-text-primary); }
+  .task-date-wrap:focus-within { border-color: var(--gz-primary); border-width: 2px; padding: 0 9px; }
   .task-date-wrap input {
     border: none;
     outline: none;
@@ -541,7 +615,10 @@
     resize: none;
     outline: none;
     margin-bottom: 10px;
+    transition: border-color 0.2s;
   }
+  .note-textarea:hover { border-color: var(--gz-text-primary); }
+  .note-textarea:focus { border-color: var(--gz-primary); border-width: 2px; padding: 9px 11px; }
   .note-textarea::placeholder { color: var(--gz-text-disabled); }
   .note-actions { display: flex; gap: 8px; }
   .btn-save {
@@ -761,8 +838,8 @@
     <!-- Status fields -->
     <div class="status-fields">
       <div class="field-group">
-        <div class="field-label">Status</div>
-        <div class="field-input-wrap">
+        <div class="mui-field has-value">
+          <span class="mui-label">Status</span>
           <select>
             <option>Open</option>
             <option>In Progress</option>
@@ -773,13 +850,13 @@
         </div>
       </div>
       <div class="field-group">
-        <div class="field-label">
-          Due
-          <span class="warn-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <div class="mui-field mui-field-date has-value">
+          <span class="mui-label">
+            Due
+            <span class="warn-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </span>
           </span>
-        </div>
-        <div class="field-input-wrap">
           <input type="date" value="2025-04-14">
           <button class="field-clear-btn">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -787,14 +864,14 @@
         </div>
       </div>
       <div class="field-group">
-        <div class="field-label">Completion</div>
-        <div class="field-input-wrap">
+        <div class="mui-field mui-field-date" id="completionField">
+          <span class="mui-label">Completion</span>
           <input type="date">
         </div>
       </div>
       <div class="field-group">
-        <div class="field-label">Assigned To</div>
-        <div class="field-input-wrap">
+        <div class="mui-field has-value">
+          <span class="mui-label">Assigned To</span>
           <input type="text" value="Billy Joel">
         </div>
       </div>
@@ -863,7 +940,6 @@
                 <td style="color:var(--gz-text-light)">—</td>
                 <td>
                   <button class="pill pill-sm pill-todo">
-                    <span class="pill-avatar"><i class="fa-solid fa-pause"></i></span>
                     <span class="pill-label">To Do</span>
                     <i class="fa-solid fa-caret-down pill-caret"></i>
                   </button>
@@ -887,8 +963,12 @@
 
           <!-- Task create row -->
           <div class="tasks-input-row">
-            <input class="task-desc-input" type="text" placeholder="Task Description">
-            <div class="task-date-wrap">
+            <div class="mui-field" style="flex:1">
+              <span class="mui-label">Task Description</span>
+              <input type="text">
+            </div>
+            <div class="mui-field mui-field-date" style="min-width:150px">
+              <span class="mui-label">Due Date</span>
               <input type="date">
             </div>
             <button class="btn-create">
@@ -912,7 +992,10 @@
         <!-- Notes panel -->
         <div class="tab-panel active" id="panel-notes">
           <div class="notes-compose">
-            <textarea class="note-textarea" placeholder="New Note"></textarea>
+            <div class="mui-field mui-field-textarea">
+              <span class="mui-label">New Note</span>
+              <textarea class="note-textarea"></textarea>
+            </div>
             <div class="note-actions">
               <button class="btn-save">SAVE</button>
               <button class="btn-cancel">CANCEL</button>
@@ -1043,6 +1126,22 @@
 
     tab.classList.add('active');
     document.getElementById('panel-' + target).classList.add('active');
+  });
+
+  // MUI floating label — toggle has-value on all inputs
+  document.querySelectorAll('.mui-field input, .mui-field select, .mui-field textarea').forEach(function(el) {
+    function updateHasValue() {
+      var field = el.closest('.mui-field');
+      if (el.value) {
+        field.classList.add('has-value');
+      } else {
+        field.classList.remove('has-value');
+      }
+    }
+    el.addEventListener('input', updateHasValue);
+    el.addEventListener('change', updateHasValue);
+    // Check initial state
+    updateHasValue();
   });
 </script>
 </body>
