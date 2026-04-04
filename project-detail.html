@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gazebo — Project Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<style>
+  :root {
+    --gz-primary: #017bb1;
+    --gz-primary-dark: #0a5183;
+    --gz-secondary: #06b2b4;
+    --gz-error: #cf4626;
+    --gz-warning: #b8860b;
+    --gz-success: #2e7d5b;
+    --gz-text-primary: #333840;
+    --gz-text-secondary: #6B7280;
+    --gz-text-light: #8a96a3;
+    --gz-text-disabled: #b0b5bd;
+    --gz-text-on-dark: #ffffff;
+    --gz-bg-page: #F7F7F8;
+    --gz-bg-card: #ffffff;
+    --gz-bg-header: #0a5183;
+    --gz-border: #ebebed;
+    --gz-border-light: #f0f1f5;
+    --gz-divider: #e0e3ea;
+    --gz-radius: 4px;
+    --gz-radius-pill: 100px;
+    --gz-font: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    --gz-shadow-1: 0 1px 2px 0 rgba(0,0,0,0.03), 0 0 0 0.5px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--gz-font);
+    font-size: 14px;
+    color: var(--gz-text-primary);
+    background: var(--gz-bg-page);
+    line-height: 1.43;
+  }
+
+  /* ─── App Header ─── */
+  .app-header {
+    background: var(--gz-bg-header);
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+  }
+  .app-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 24px;
+    text-decoration: none;
+  }
+  .logo-text {
+    color: white;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+  }
+  .app-nav {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    height: 100%;
+  }
+  .app-nav a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+  }
+  .app-nav a.active { color: white; border-bottom-color: white; }
+  .app-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+  }
+  .header-icon-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+  }
+  .header-user {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* ─── Sub-header ─── */
+  .sub-header {
+    background: var(--gz-bg-card);
+    border-bottom: 1px solid var(--gz-border);
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-back {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gz-text-secondary);
+    background: none;
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .sub-header-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gz-text-primary);
+  }
+  .btn-icon-sm {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    background: none;
+    cursor: pointer;
+    color: var(--gz-text-secondary);
+  }
+  .sub-header-spacer { flex: 1; }
+  .btn-primary {
+    background: var(--gz-primary);
+    color: white;
+    border: none;
+    border-radius: var(--gz-radius);
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.46px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ─── Page content ─── */
+  .page-content {
+    padding: 20px 24px;
+  }
+  .project-card {
+    background: var(--gz-bg-card);
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    box-shadow: var(--gz-shadow-1);
+    padding: 24px;
+  }
+
+  /* ─── Project header ─── */
+  .project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .project-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gz-text-primary);
+    line-height: 1.3;
+  }
+  .project-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-left: 16px;
+    margin-top: 2px;
+  }
+  .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gz-text-light);
+    padding: 2px;
+    display: flex;
+    align-items: center;
+  }
+  .action-btn.starred { color: #f5a623; }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gz-text-secondary);
+    margin-bottom: 16px;
+  }
+  .meta-sep { color: var(--gz-border); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--gz-divider);
+    margin: 16px 0;
+  }
+
+  /* ─── Status fields ─── */
+  .status-fields {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gz-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .field-label .warn-icon { color: var(--gz-error); display: flex; }
+  .field-input-wrap {
+    height: 36px;
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    padding: 0 10px;
+    font-size: 13px;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .field-input-wrap select,
+  .field-input-wrap input {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-family: var(--gz-font);
+    color: var(--gz-text-primary);
+    background: transparent;
+    flex: 1;
+    height: 100%;
+  }
+  .field-clear-btn {
+    background: none;
+    border: none;
+    color: var(--gz-text-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+
+  /* ─── Two-column layout ─── */
+  .project-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ─── Left column ─── */
+  .section-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gz-text-primary);
+    margin-bottom: 8px;
+  }
+  /* Blue on headings violates blue=data rule — removed */
+  .body-text {
+    font-size: 14px;
+    color: var(--gz-text-primary);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .section-block { margin-bottom: 20px; }
+
+  /* ─── Task table ─── */
+  .task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+  }
+  .task-table th {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--gz-text-secondary);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--gz-border-light);
+  }
+  .task-table td {
+    font-size: 13px;
+    color: var(--gz-text-primary);
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--gz-border-light);
+    vertical-align: middle;
+  }
+  .task-table tr:last-child td { border-bottom: none; }
+  .task-table tr:hover td { background: #fafafa; }
+
+  .task-desc-done {
+    text-decoration: line-through;
+    color: var(--gz-text-light);
+  }
+  .task-delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gz-text-light);
+    display: flex;
+    align-items: center;
+    padding: 2px;
+  }
+  .task-delete-btn:hover { color: var(--gz-error); }
+
+  /* ─── Status pills (from Figma DSM) ─── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--gz-radius-pill);
+    padding: 4px;
+    font-family: var(--gz-font);
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .pill-avatar {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 8px;
+  }
+  .pill-label {
+    padding: 0 6px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.16px;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+  }
+  .pill-caret {
+    font-size: 10px;
+    opacity: 0.4;
+    margin-right: 4px;
+  }
+
+  /* Open / Candidate / Forecast */
+  .pill-open {
+    background: #e3f2fd;
+    border-color: #bfe8fa;
+    color: #0a5183;
+  }
+  /* On Hold / Incomplete */
+  .pill-hold {
+    background: #f6f7f7;
+    border-color: #eceeef;
+    color: #14191b;
+  }
+  /* In Progress / Provisional */
+  .pill-in-progress {
+    background: #bfe8fa;
+    border-color: #80d1f5;
+    color: #0a5183;
+  }
+  /* Active */
+  .pill-active {
+    background: #bbddc5;
+    border-color: #99cca8;
+    color: #416862;
+  }
+  /* Complete / Retired / Final (Done) */
+  .pill-done {
+    background: #ffffff;
+    border-color: #ddeee2;
+    color: #416862;
+  }
+  /* To Do */
+  .pill-todo {
+    background: rgba(0,0,0,0.08);
+    border-color: transparent;
+    color: rgba(0,0,0,0.87);
+  }
+  /* Cancelled */
+  .pill-cancelled {
+    background: transparent;
+    border-color: transparent;
+    color: #727576;
+  }
+
+  /* Small variant — for table rows */
+  .pill-sm { padding: 2px; }
+  .pill-sm .pill-avatar { width: 16px; height: 16px; font-size: 7px; }
+  .pill-sm .pill-label { font-size: 11px; min-height: 18px; padding: 0 5px; }
+  .pill-sm .pill-caret { font-size: 8px; margin-right: 3px; }
+
+  /* ─── Task input row ─── */
+  .tasks-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-top: 4px;
+  }
+  .task-desc-input {
+    flex: 1;
+    height: 36px;
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    padding: 0 12px;
+    font-size: 13px;
+    font-family: var(--gz-font);
+    color: var(--gz-text-primary);
+    outline: none;
+  }
+  .task-desc-input::placeholder { color: var(--gz-text-disabled); }
+  .task-date-wrap {
+    height: 36px;
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    padding: 0 10px;
+    font-size: 13px;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 150px;
+  }
+  .task-date-wrap input {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-family: var(--gz-font);
+    color: var(--gz-text-disabled);
+    background: transparent;
+    flex: 1;
+  }
+  .btn-create {
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    background: white;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gz-text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ─── Tab bar ─── */
+  .tab-bar {
+    display: flex;
+    border-bottom: 2px solid var(--gz-divider);
+  }
+  .tab {
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gz-text-secondary);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    user-select: none;
+  }
+  .tab.active {
+    color: var(--gz-secondary);
+    border-bottom-color: var(--gz-secondary);
+  }
+  .tab-badge {
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    background: var(--gz-divider);
+    color: var(--gz-text-secondary);
+    line-height: 1;
+  }
+  .tab.active .tab-badge {
+    background: var(--gz-secondary);
+    color: white;
+  }
+
+  /* ─── Tab panels ─── */
+  .tab-panel {
+    display: none;
+    border: 1px solid var(--gz-border);
+    border-top: none;
+    border-radius: 0 0 var(--gz-radius) var(--gz-radius);
+  }
+  .tab-panel.active { display: block; }
+
+  /* Notes panel */
+  .notes-compose {
+    padding: 14px;
+    border-bottom: 1px solid var(--gz-border-light);
+  }
+  .note-textarea {
+    width: 100%;
+    height: 72px;
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: var(--gz-font);
+    color: var(--gz-text-primary);
+    resize: none;
+    outline: none;
+    margin-bottom: 10px;
+  }
+  .note-textarea::placeholder { color: var(--gz-text-disabled); }
+  .note-actions { display: flex; gap: 8px; }
+  .btn-save {
+    height: 30px;
+    padding: 0 14px;
+    background: var(--gz-bg-page);
+    color: var(--gz-text-primary);
+    border: 1px solid var(--gz-border);
+    border-radius: var(--gz-radius);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  .btn-save:hover { background: var(--gz-divider); }
+  .btn-cancel {
+    height: 30px;
+    padding: 0 14px;
+    background: none;
+    color: var(--gz-text-secondary);
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+
+  /* Note list items */
+  .note-item {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--gz-border-light);
+  }
+  .note-item:last-child { border-bottom: none; }
+  .note-item-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .note-author {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gz-text-primary);
+  }
+  .note-date {
+    font-size: 12px;
+    color: var(--gz-text-light);
+    margin-top: 1px;
+  }
+  .note-item-actions {
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .note-item:hover .note-item-actions { opacity: 1; }
+  .note-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gz-text-light);
+    padding: 2px;
+    display: flex;
+    align-items: center;
+  }
+  .note-action-btn:hover { color: var(--gz-text-secondary); }
+  .note-body {
+    font-size: 13px;
+    color: var(--gz-text-primary);
+    line-height: 1.5;
+  }
+
+  /* Files panel */
+  .files-empty {
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--gz-text-light);
+    font-size: 13px;
+  }
+  .files-empty svg { margin-bottom: 10px; color: var(--gz-text-disabled); }
+
+  /* Persistence panel */
+  .persistence-panel {
+    padding: 16px;
+  }
+  .persistence-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--gz-text-secondary);
+    margin-bottom: 8px;
+  }
+  .persistence-empty {
+    font-size: 13px;
+    color: var(--gz-text-light);
+  }
+
+  /* ─── Right column — metadata ─── */
+  .meta-list { display: flex; flex-direction: column; }
+  .meta-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 8px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--gz-border-light);
+    align-items: start;
+  }
+  .meta-row:last-child { border-bottom: none; }
+  .meta-label { font-size: 13px; color: var(--gz-text-secondary); }
+  .meta-value-data { color: var(--gz-primary); }
+  .meta-value {
+    font-size: 13px;
+    color: var(--gz-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .meta-value-multi { font-size: 13px; color: var(--gz-text-primary); line-height: 1.6; }
+  .info-icon {
+    color: var(--gz-text-light);
+    font-size: 13px;
+    cursor: help;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ App Header ═══ -->
+<header class="app-header">
+  <a href="#" class="app-header-logo">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M12 3L4 8v2h1v9h4v-5h6v5h4V10h1V8L12 3z" fill="white" opacity="0.9"/>
+      <rect x="9" y="14" width="6" height="5" rx="1" fill="#06b2b4"/>
+    </svg>
+    <span class="logo-text">gazebo</span>
+  </a>
+  <nav class="app-nav">
+    <a href="#">Explore</a>
+    <a href="#">Performance</a>
+    <a href="#" class="active">Projects</a>
+    <a href="#">Resources</a>
+    <a href="#">Activity</a>
+    <a href="#">EIS</a>
+  </nav>
+  <div class="app-header-right">
+    <button class="header-icon-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+    </button>
+    <div class="header-user">
+      Lacey Grevious
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M7 10l5 5 5-5z"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ Sub-header ═══ -->
+<div class="sub-header">
+  <button class="btn-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+    Back
+  </button>
+  <h1 class="sub-header-title">Browse Projects</h1>
+  <button class="btn-icon-sm">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+  </button>
+  <button class="btn-icon-sm">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+  </button>
+  <div class="sub-header-spacer"></div>
+  <button class="btn-primary">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+    Add Project
+  </button>
+</div>
+
+<!-- ═══ Page Content ═══ -->
+<div class="page-content">
+  <div class="project-card">
+
+    <!-- Project title + actions -->
+    <div class="project-header">
+      <h2 class="project-title">Enable RS#2 Freezer Evaporator Fan Cycling</h2>
+      <div class="project-actions">
+        <button class="action-btn starred">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </button>
+        <button class="action-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        </button>
+        <button class="action-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Project metadata -->
+    <div class="project-meta">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="#f5a623"><path d="M12 2L2 7l10 15L22 7z"/></svg>
+      <span>Gem</span>
+      <span class="meta-sep">|</span>
+      <span>Am Co Makes Everything</span>
+      <span class="meta-sep">|</span>
+      <span>Project #114</span>
+      <span class="meta-sep">|</span>
+      <span>Subsystem: Refrigeration</span>
+      <span class="meta-sep">|</span>
+      <span>Type: O&amp;M</span>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Status fields -->
+    <div class="status-fields">
+      <div class="field-group">
+        <div class="field-label">Status</div>
+        <div class="field-input-wrap">
+          <select>
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>On Hold</option>
+            <option>Complete</option>
+            <option>Cancelled</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">
+          Due
+          <span class="warn-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          </span>
+        </div>
+        <div class="field-input-wrap">
+          <input type="date" value="2025-04-14">
+          <button class="field-clear-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Completion</div>
+        <div class="field-input-wrap">
+          <input type="date">
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Assigned To</div>
+        <div class="field-input-wrap">
+          <input type="text" value="Billy Joel">
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Two-column body -->
+    <div class="project-body">
+
+      <!-- Left column -->
+      <div>
+        <div class="section-block">
+          <div class="section-heading">Background</div>
+          <p class="body-text">Refrigeration system #2 serves a freezer with 1,000,000 sq ft and has 1,000 evaporators that are identical with 4fans x 3 hp each. The control system has the ability to cycle the fans with the liquid solenoid valve, however, this function is not enabled and the fans run constantly except during a defrost cycle.</p>
+          <p class="body-text">This saves energy by reducing fan runtime as well as reduces refrigeration load when the system is not calling for cooling.</p>
+          <p class="body-text">The solenoid cycle time is 70% on average for the facility, and it is anticipate the off cycle time is 30%.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="section-heading">Required Actions</div>
+          <p class="body-text">Enable fan cycling on each fan evaporator control screen, and set "stir cycle" on each evaporator to run the evaporator fans a minimum of 5 minutes per hour to ensure stagnant air is mitigated.</p>
+          <p class="body-text">Monitor room air temperatures in low air movement areas of the freezer and increase stir cycle time by 5 minutes until issues are mitigated.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="section-heading">Tasks</div>
+
+          <!-- Task table -->
+          <table class="task-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th style="width:110px">Due Date</th>
+                <th style="width:130px">Status</th>
+                <th style="width:50px">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="task-desc-done">increase the non-load shed suction pressure setpoint from 1 psig to 4 psig.</span></td>
+                <td style="color:var(--gz-text-light)">—</td>
+                <td>
+                  <button class="pill pill-sm pill-done">
+                    <span class="pill-avatar"><i class="fa-solid fa-circle-check"></i></span>
+                    <span class="pill-label">Done</span>
+                    <i class="fa-solid fa-caret-down pill-caret"></i>
+                  </button>
+                </td>
+                <td><button class="task-delete-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><span class="task-desc-done">after 1 week, check Explore for this week, last week comparison</span></td>
+                <td style="color:var(--gz-text-light)">—</td>
+                <td>
+                  <button class="pill pill-sm pill-done">
+                    <span class="pill-avatar"><i class="fa-solid fa-circle-check"></i></span>
+                    <span class="pill-label">Done</span>
+                    <i class="fa-solid fa-caret-down pill-caret"></i>
+                  </button>
+                </td>
+                <td><button class="task-delete-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td>
+              </tr>
+              <tr>
+                <td>Open task</td>
+                <td style="color:var(--gz-text-light)">—</td>
+                <td>
+                  <button class="pill pill-sm pill-todo">
+                    <span class="pill-avatar"><i class="fa-solid fa-pause"></i></span>
+                    <span class="pill-label">To Do</span>
+                    <i class="fa-solid fa-caret-down pill-caret"></i>
+                  </button>
+                </td>
+                <td><button class="task-delete-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td>
+              </tr>
+              <tr>
+                <td>Follow up on compressor readings</td>
+                <td style="color:var(--gz-text-light)">—</td>
+                <td>
+                  <button class="pill pill-sm pill-in-progress">
+                    <span class="pill-avatar"><i class="fa-solid fa-play"></i></span>
+                    <span class="pill-label">In Progress</span>
+                    <i class="fa-solid fa-caret-down pill-caret"></i>
+                  </button>
+                </td>
+                <td><button class="task-delete-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Task create row -->
+          <div class="tasks-input-row">
+            <input class="task-desc-input" type="text" placeholder="Task Description">
+            <div class="task-date-wrap">
+              <input type="date">
+            </div>
+            <button class="btn-create">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              CREATE
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="tab-bar" id="tabBar">
+          <div class="tab active" data-tab="notes">
+            <span class="tab-badge">3</span> Notes
+          </div>
+          <div class="tab" data-tab="files">
+            <span class="tab-badge">0</span> Files
+          </div>
+          <div class="tab" data-tab="persistence">Persistence</div>
+        </div>
+
+        <!-- Notes panel -->
+        <div class="tab-panel active" id="panel-notes">
+          <div class="notes-compose">
+            <textarea class="note-textarea" placeholder="New Note"></textarea>
+            <div class="note-actions">
+              <button class="btn-save">SAVE</button>
+              <button class="btn-cancel">CANCEL</button>
+            </div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-header">
+              <div>
+                <div class="note-author">Carianne Nieuwstraten</div>
+                <div class="note-date">2025-07-01 11:33</div>
+              </div>
+              <div class="note-item-actions">
+                <button class="note-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
+                <button class="note-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+              </div>
+            </div>
+            <div class="note-body">Changing to 3 psig</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-header">
+              <div>
+                <div class="note-author">Miriam Goldade-Holbrook</div>
+                <div class="note-date">2021-10-21 06:33</div>
+              </div>
+              <div class="note-item-actions">
+                <button class="note-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
+                <button class="note-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+              </div>
+            </div>
+            <div class="note-body">Test</div>
+          </div>
+          <div class="note-item">
+            <div class="note-item-header">
+              <div>
+                <div class="note-author">Tom Simenc</div>
+                <div class="note-date">2021-01-28 10:12</div>
+              </div>
+              <div class="note-item-actions">
+                <button class="note-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
+                <button class="note-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+              </div>
+            </div>
+            <div class="note-body">Increased suction from 1 psig to 2.5 psig. Watching for 1 week.</div>
+          </div>
+        </div>
+
+        <!-- Files panel -->
+        <div class="tab-panel" id="panel-files">
+          <div class="files-empty">
+            <div>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
+            </div>
+            No files attached to this project.
+          </div>
+        </div>
+
+        <!-- Persistence panel -->
+        <div class="tab-panel" id="panel-persistence">
+          <div class="persistence-panel">
+            <div class="persistence-label">Persistence Tracking</div>
+            <div class="persistence-empty">No persistence records yet.</div>
+          </div>
+        </div>
+
+      </div><!-- /left column -->
+
+      <!-- Right column — metadata -->
+      <div class="meta-list">
+        <div class="meta-row">
+          <div class="meta-label">Savings (Precision)</div>
+          <div class="meta-value-multi meta-value-data">
+            <div>750,000 kWh/yr (Rough)</div>
+            <div>1,000 Therms/yr (Rough)</div>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-label">Avoided Cost</div>
+          <div class="meta-value meta-value-data">
+            $314,000 /yr
+            <span class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-label">Avoided Emissions</div>
+          <div class="meta-value meta-value-data">
+            606.76 Metric Tons CO<sub>2</sub>e/yr
+            <span class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-label">Other Savings</div>
+          <div class="meta-value">N/A</div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-label">Quadrant</div>
+          <div class="meta-value">
+            Gem
+            <span class="info-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-label">Energy Impact</div>
+          <div class="meta-value">High</div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-label">Effort</div>
+          <div class="meta-value">Low</div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-label">Source</div>
+          <div class="meta-value">Treasure Hunt</div>
+        </div>
+      </div>
+
+    </div><!-- /project-body -->
+  </div><!-- /project-card -->
+</div><!-- /page-content -->
+
+<script>
+  // Tab switching
+  document.getElementById('tabBar').addEventListener('click', function(e) {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    const target = tab.dataset.tab;
+
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+    tab.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+  });
+</script>
+</body>
+</html>
