@@ -1,6 +1,17 @@
 # Gazebo Status Pills Reference
 
-Status pills are custom variants of MUI's `<Chip>` component using Font Awesome 6 Pro icons. They communicate project lifecycle state across four domains.
+Status pills are custom variants of MUI's `<Chip>` component using Font Awesome 6 Pro icons. They communicate lifecycle state across four domains. Each domain is tied to a specific object type — always use the correct domain's pills for its object.
+
+## Domain-to-object mapping
+
+| Domain | Object | Where it appears |
+|--------|--------|-----------------|
+| **Project** | Energy conservation project | Project list, project detail status field, project cards |
+| **Model** | Savings calculation model | Model list, model detail, model cards within a project |
+| **Claims** | Savings claim (forecast/final) | Claims list, claims detail, claims table within a project |
+| **Tasks** | Action item / to-do | Task table within a project detail page |
+
+Never mix domains — a Task must never show a Project pill (e.g. "Open"), and a Project must never show a Task pill (e.g. "To Do").
 
 ## Visual hierarchy rule
 
