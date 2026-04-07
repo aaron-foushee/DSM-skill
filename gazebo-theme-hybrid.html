@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gazebo Theme — Hybrid Approach</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Source Sans 3','Segoe UI',system-ui,sans-serif; background:#f0f0f0; padding:20px; color:#333840; }
+  h1 { font-size:20px; font-weight:500; margin-bottom:4px; }
+  .intro { font-size:14px; color:#6B7280; margin-bottom:20px; max-width:900px; line-height:1.6; }
+  .app { max-width:1100px; margin:0 auto; border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,0.12); background:#fff; }
+  .hdr { padding:12px 24px; display:flex; align-items:center; gap:12px; background:#0a5183; }
+  .hdr-logo { font-size:16px; font-weight:600; letter-spacing:0.5px; color:#fff; }
+  .hdr-sep { width:1px; height:24px; background:rgba(255,255,255,0.2); }
+  .hdr-util { font-size:12px; color:rgba(255,255,255,0.5); }
+  .hdr-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+  .hdr-av { width:32px; height:32px; border-radius:50%; background:#06b2b4; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#fff; border:1px solid rgba(255,255,255,0.3); }
+  .hdr-name { font-size:13px; color:#fff; font-weight:500; }
+  .hdr-role { font-size:11px; color:rgba(255,255,255,0.5); }
+  .page { background:#F7F7F8; padding:24px; }
+  .welcome { font-size:22px; font-weight:400; color:#333840; }
+  .subtitle { font-size:14px; color:#6B7280; margin-bottom:20px; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:20px; }
+  @media (max-width:800px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } .panels { grid-template-columns:1fr !important; } }
+  .kpi { background:#fff; border:1px solid #ebebed; border-radius:6px; padding:14px 16px; }
+  .kpi-label { font-size:12px; color:#6B7280; margin-bottom:4px; }
+  .kpi-val { font-size:26px; font-weight:400; line-height:1.2; }
+  .kpi-val.blue { color:#017bb1; }
+  .kpi-val.neutral { color:#333840; }
+  .kpi-val.overdue { color:#C62828; }
+  .kpi-sub { font-size:11px; color:#8a96a3; margin-top:6px; }
+  .bar-track { height:5px; background:#E8ECF0; border-radius:3px; margin-top:8px; overflow:hidden; }
+  .bar-fill { height:5px; border-radius:3px; background:#017bb1; }
+  .tabs { display:flex; gap:0; border-bottom:2px solid #e0e3ea; margin-bottom:16px; }
+  .tab { padding:10px 20px; font-size:13px; font-weight:500; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:#6B7280; transition:all 0.15s; }
+  .tab:hover { color:#048184; }
+  .tab.on { color:#06b2b4; border-bottom-color:#06b2b4; }
+  .panels { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .card { background:#fff; border:1px solid #ebebed; border-radius:6px; overflow:hidden; }
+  .card-hdr { padding:16px 18px 10px; }
+  .card-title { font-size:15px; font-weight:600; color:#333840; }
+  .card-sub { font-size:12px; color:#8a96a3; margin-top:3px; }
+  .card-row { padding:12px 18px; border-top:1px solid #f0f1f5; display:flex; align-items:center; gap:10px; cursor:pointer; transition:background 0.1s; }
+  .card-row:hover { background:#fafafa; }
+  .card-row:hover .gz-link { color:#017bb1; }
+  .gz-link { font-size:14px; font-weight:600; color:#333840; text-decoration:none; transition:color 0.15s; cursor:pointer; }
+  .gz-link:hover { color:#017bb1; }
+  .card-row-meta { font-size:12px; color:#6B7280; }
+  .card-row-date { font-size:12px; color:#333840; font-weight:500; text-align:right; }
+  .card-row-chevron { color:#ccc; font-size:16px; }
+  .pill { display:inline-flex; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:600; }
+  .pill-overdue { background:#FFEBEE; color:#C62828; }
+  .pill-behind { background:#fdf6e3; color:#b8860b; }
+  .pill-changes { background:#06b2b4; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:600; color:#fff; }
+  .tbl { width:100%; border-collapse:collapse; }
+  .tbl th { font-size:11px; font-weight:500; color:#6B7280; text-transform:uppercase; letter-spacing:0.03em; text-align:left; padding:10px 14px; border-bottom:1px solid #e0e3ea; }
+  .tbl td { font-size:13px; color:#333840; padding:10px 14px; border-bottom:1px solid #f0f1f5; }
+  .tbl tr { transition:background 0.1s; }
+  .tbl tr:hover td { background:#fafafa; }
+  .tbl tr:hover .gz-link { color:#017bb1; }
+  .pill-status { display:inline-flex; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:600; }
+  .overdue-border { border-color:#C62828 !important; }
+  .legend { max-width:1100px; margin:16px auto 0; padding:16px 20px; background:#fff; border-radius:8px; border:1px solid #e0e3ea; }
+  .legend-title { font-size:14px; font-weight:500; color:#333840; margin-bottom:10px; }
+  .legend-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px 24px; }
+  .legend-item { display:flex; align-items:center; gap:10px; font-size:13px; color:#6B7280; line-height:1.4; }
+  .legend-swatch { width:20px; height:20px; border-radius:4px; flex-shrink:0; }
+  .legend-item strong { color:#333840; font-weight:500; }
+  .legend-example { font-size:12px; color:#8a96a3; margin-top:1px; }
+</style>
+</head>
+<body>
+<div style="max-width:1100px;margin:0 auto 16px;">
+  <h1>Gazebo theme — hybrid approach</h1>
+  <div class="intro">Blue for data values. Teal for navigation (tabs, active states). Links are black with bold weight, turning blue on hover. This keeps blue meaningful (it always means "data") while teal signals "where you are." Links don't compete with either — they're neutral until interacted with.</div>
+</div>
+
+<div class="app">
+  <div class="hdr">
+    <span class="hdr-logo">gazebo</span>
+    <div class="hdr-sep"></div>
+    <span class="hdr-util">ComEd</span>
+    <div class="hdr-right">
+      <div class="hdr-av">ES</div>
+      <div><div class="hdr-name">Eric Strand</div><div class="hdr-role">Energy Advisor</div></div>
+    </div>
+  </div>
+  <div class="page">
+    <div class="welcome">Welcome, Eric Strand</div>
+    <div class="subtitle">Energy Advisor · Portfolio overview</div>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Verified savings</div>
+        <div class="kpi-val blue">0.3 GWh</div>
+        <div class="bar-track"><div class="bar-fill" style="width:18%"></div></div>
+        <div class="kpi-sub">0.3 of 1.7 GWh goal</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Pipeline</div>
+        <div class="kpi-val blue">1.3 GWh</div>
+        <div class="bar-track"><div class="bar-fill" style="width:76%"></div></div>
+        <div class="kpi-sub">1.3 of 1.7 GWh goal</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Pipeline changes</div>
+        <div class="kpi-val neutral">+0.5 GWh</div>
+        <div class="kpi-sub">in the last week</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Recent changes</div>
+        <div class="kpi-val blue">4</div>
+        <div class="kpi-sub">past 7 days</div>
+      </div>
+      <div class="kpi overdue-border">
+        <div class="kpi-label">Overdue tasks</div>
+        <div class="kpi-val overdue">5</div>
+        <div class="kpi-sub">need attention</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab on" id="tab-0">Overview</div>
+      <div class="tab" id="tab-1">Accounts</div>
+      <div class="tab" id="tab-2">Activity</div>
+      <div class="tab" id="tab-3">Tasks</div>
+    </div>
+
+    <div id="panel-overview">
+      <div class="panels">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Prep for this week</div><div class="card-sub">Upcoming visits and check-ins</div></div>
+          <div class="card-row"><div style="flex:1"><div class="gz-link">Illinois Foods, Inc.</div><div class="card-row-meta">Northern Facility site visit</div></div><div style="text-align:right"><div class="card-row-date">Mar 18</div><div class="card-row-meta">LCS: J. Dawson</div></div><span class="card-row-chevron">›</span></div>
+          <div class="card-row"><div style="flex:1"><div class="gz-link">Prairie Foods Inc</div><div class="card-row-meta">Quarterly check-in call</div></div><div style="text-align:right"><div class="card-row-date">Mar 20</div><div class="card-row-meta">LCS: J. Dawson</div></div><span class="card-row-chevron">›</span></div>
+          <div class="card-row"><div style="flex:1"><div class="gz-link">ComfortAir HVAC Supply</div><div class="card-row-meta">Follow-up site walk</div></div><div style="text-align:right"><div class="card-row-date">Mar 21</div><div class="card-row-meta">LCS: R. Martinez</div></div><span class="card-row-chevron">›</span></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Needs attention</div><div class="card-sub">Overdue tasks, off-track goals, recent changes</div></div>
+          <div class="card-row"><div style="flex:1"><div class="gz-link">Illinois Foods, Inc.</div><div class="card-row-meta">3 facilities · 8 projects</div></div><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><span class="pill pill-overdue">5 overdue</span><span class="pill-changes">4 changes</span></div><span class="card-row-chevron">›</span></div>
+          <div class="card-row"><div style="flex:1"><div class="gz-link">Lakeland Health System</div><div class="card-row-meta">4 facilities · 6 projects</div></div><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><span class="pill pill-behind">Behind on goal</span><span class="pill-changes">3 changes</span></div><span class="card-row-chevron">›</span></div>
+          <div class="card-row"><div style="flex:1"><div class="gz-link">ComfortAir HVAC Supply</div><div class="card-row-meta">1 facility · 2 projects</div></div><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><span class="pill pill-overdue">2 overdue</span><span class="pill pill-behind">Behind on goal</span></div><span class="card-row-chevron">›</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-accounts" style="display:none">
+      <div class="card" style="overflow-x:auto">
+        <table class="tbl">
+          <thead><tr><th>Customer</th><th>Pipeline</th><th>Projects</th><th>Goal</th><th>Status</th><th>Overdue</th><th>Last activity</th></tr></thead>
+          <tbody>
+            <tr><td><span class="gz-link">Illinois Foods, Inc.</span></td><td>$1.3M</td><td>8</td><td>1.7 GWh</td><td><span class="pill-status" style="background:#e6f4ed;color:#2e7d5b">On track</span></td><td style="color:#C62828">5</td><td>1 day ago</td></tr>
+            <tr><td><span class="gz-link">Prairie Foods Inc</span></td><td>$980K</td><td>4</td><td>1.2 GWh</td><td><span class="pill-status" style="background:#e6f4ed;color:#2e7d5b">On track</span></td><td style="color:#6B7280">0</td><td>5 days ago</td></tr>
+            <tr><td><span class="gz-link">Lakeland Health System</span></td><td>$1.9M</td><td>6</td><td>2.8 GWh</td><td><span class="pill-status" style="background:#FFEBEE;color:#C62828">Off track</span></td><td style="color:#6B7280">0</td><td>12 days ago</td></tr>
+            <tr><td><span class="gz-link">Midwest Stamping Group</span></td><td>$850K</td><td>3</td><td>1.1 GWh</td><td><span class="pill-status" style="background:#e6f4ed;color:#2e7d5b">On track</span></td><td style="color:#6B7280">0</td><td>45 days ago</td></tr>
+            <tr><td><span class="gz-link">ComfortAir HVAC Supply</span></td><td>$320K</td><td>2</td><td>650 MWh</td><td><span class="pill-status" style="background:#FFEBEE;color:#C62828">Off track</span></td><td style="color:#C62828">2</td><td>8 days ago</td></tr>
+            <tr><td><span class="gz-link">Northern Illinois University</span></td><td>$3.8M</td><td>11</td><td>4.5 GWh</td><td><span class="pill-status" style="background:#e6f4ed;color:#2e7d5b">On track</span></td><td style="color:#6B7280">0</td><td>65 days ago</td></tr>
+            <tr><td><span class="gz-link">Archer Daniels Facility</span></td><td>$1.9M</td><td>5</td><td>2.2 GWh</td><td><span class="pill-status" style="background:#e6f4ed;color:#2e7d5b">On track</span></td><td style="color:#6B7280">0</td><td>62 days ago</td></tr>
+            <tr><td><span class="gz-link">Cook County Schools</span></td><td>$2.9M</td><td>9</td><td>3.8 GWh</td><td><span class="pill-status" style="background:#e6f4ed;color:#2e7d5b">On track</span></td><td style="color:#6B7280">0</td><td>38 days ago</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-title">Color usage rules in this approach</div>
+  <div class="legend-grid">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#017bb1"></div>
+      <div><strong>Blue (#017bb1)</strong> — data values only<div class="legend-example">KPI numbers, progress bars, chart data</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#06b2b4"></div>
+      <div><strong>Teal (#06b2b4)</strong> — navigation &amp; active states<div class="legend-example">Active tabs, selected nav, "changes" badges</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#333840;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">Aa</div>
+      <div><strong>Links</strong> — black + bold, blue on hover<div class="legend-example">Customer names, clickable items in tables/cards</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#0a5183"></div>
+      <div><strong>Header (#0a5183)</strong> — primary dark<div class="legend-example">App bar background</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#C62828"></div>
+      <div><strong>Error (#C62828)</strong> — problems only<div class="legend-example">Overdue counts, off-track status pills</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#2e7d5b"></div>
+      <div><strong>Success (#2e7d5b)</strong> — positive status only<div class="legend-example">On track pills, complete status</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#b8860b"></div>
+      <div><strong>Warning (#b8860b)</strong> — caution only<div class="legend-example">Behind on goal, needs attention</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#F7F7F8;border:1px solid #e0e3ea"></div>
+      <div><strong>Surfaces</strong> — neutral gray bg, white cards<div class="legend-example">Page: #F7F7F8, Cards: #FFFFFF</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var tabNames = ['overview','accounts','activity','tasks'];
+document.querySelectorAll('.tab').forEach(function(t,i){
+  t.onclick = function(){
+    tabNames.forEach(function(n){
+      var p = document.getElementById('panel-'+n);
+      if(p) p.style.display = n===tabNames[i]?'':'none';
+    });
+    document.querySelectorAll('.tab').forEach(function(tb){
+      tb.classList.remove('on');
+    });
+    t.classList.add('on');
+  };
+});
+</script>
+</body>
+</html>

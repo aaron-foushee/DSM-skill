@@ -210,6 +210,67 @@ Card gap: 10-14px
 Cards lift off the gray background via white fill + subtle border
 ```
 
+## Figma vs. code reality
+
+The Gazebo DSM lives in a Figma MUI kit. The Figma kit is a static visual reference — it cannot represent interactive behavior. When building prototypes or production code, follow these rules:
+
+### Use the skill for: visual styling
+Colors, typography, spacing, elevation, border radius, status pill colors, layout patterns — all of these come from this skill and the Gazebo DSM. The Figma file is the visual source of truth for these.
+
+### Use MUI's actual component API for: interactions
+The Figma kit shows static snapshots of interactive components. Many of these don't work correctly in Figma (date pickers, hover state transitions, focus rings, etc.). **Do not try to reverse-engineer interaction behavior from Figma screenshots.** Instead, use MUI's documented component behavior:
+
+| Component | Figma shows | Code should use |
+|-----------|------------|-----------------|
+| DatePicker / DateRangePicker | Static calendar screenshot | MUI's `@mui/x-date-pickers` with full keyboard nav, mobile/desktop variants, opening animations |
+| Select / Autocomplete | Static dropdown snapshot | MUI's actual dropdown with filtering, keyboard navigation, scroll, clear button |
+| Button hover/press | Sometimes a separate variant, sometimes missing | MUI's built-in ripple effect + color transition (override ripple color with Gazebo primary) |
+| Focus states | Approximated with a ring variant | MUI's native `:focus-visible` with `outline` — use `2px solid var(--gz-primary)` with `2px offset` |
+| Tooltip | Static positioned label | MUI Tooltip with default enter/leave delays and smart positioning |
+| Drawer | Static open state | MUI Drawer with slide transition |
+| Dialog | Static centered card | MUI Dialog with fade + backdrop |
+| Accordion | Static expanded state | MUI Accordion with expand/collapse animation |
+| Snackbar | Static toast | MUI Snackbar with auto-hide (default 5s), slide-up enter, fade exit |
+| Tabs | Static selected state | MUI Tabs with indicator slide animation |
+| Progress (linear) | Static bar | MUI LinearProgress with animation for indeterminate state |
+
+### Key interaction overrides for Gazebo theme
+
+When creating a `createTheme()` override for MUI, these are the interaction-specific values:
+
+```js
+const gazeboTheme = createTheme({
+  palette: {
+    primary: { main: '#017bb1', dark: '#0a5183', light: '#40bbf1' },
+    secondary: { main: '#06b2b4', dark: '#048184', light: '#5ee0e2' },
+    error: { main: '#cf4626', dark: '#b0381c', light: '#e78578' },
+    warning: { main: '#b8860b', dark: '#8a6508', light: '#e6a817' },
+    success: { main: '#2e7d5b', dark: '#1b5e43', light: '#4caf7c' },
+    info: { main: '#0288d1', dark: '#01579b', light: '#03a9f4' },
+  },
+  shape: { borderRadius: 4 },
+  typography: { fontFamily: "'Source Sans 3', 'Segoe UI', system-ui, sans-serif" },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: { textTransform: 'none', fontWeight: 500 },
+      },
+    },
+  },
+});
+```
+
+### Color drift warning
+
+The Figma MUI kit has drifted from npm MUI defaults for error, warning, and success. The Figma values are the Gazebo-intended values. Developers must apply the `createTheme()` overrides above — do not rely on MUI defaults for these three semantic colors. Info is the only semantic color that matches MUI defaults exactly.
+
+| Color | MUI npm default | Gazebo / Figma value | Notes |
+|-------|----------------|---------------------|-------|
+| error/main | `#d32f2f` | `#cf4626` | Gazebo is warmer/more orange |
+| warning/main | `#ed6c02` | `#b8860b` (proposed) | Intentional shift to amber |
+| success/main | `#2e7d32` | `#2e7d5b` (proposed) | Very close to MUI default |
+| info/main | `#0288d1` | `#0288d1` | Exact match — no override needed |
+
 ## What NOT to do
 
 - Do not use blue for links at rest — blue means data
@@ -220,3 +281,5 @@ Cards lift off the gray background via white fill + subtle border
 - Do not use more than 2-3 colors on any single view — lean on neutrals
 - Do not bold mid-sentence text — bold is for labels, headings, and link names only
 - Do not use a pure white page background — use #F7F7F8 (light gray) so cards have natural separation
+- Do not try to replicate Figma interaction behavior — use MUI's actual component API for hover states, transitions, focus rings, date pickers, and all interactive patterns
+- Do not assume MUI defaults match the Figma DSM for error, warning, or success — always apply the Gazebo theme overrides
