@@ -210,6 +210,119 @@ Card gap: 10-14px
 Cards lift off the gray background via white fill + subtle border
 ```
 
+## Modals
+
+Modals follow a consistent structure across Gazebo. Match this pattern exactly.
+
+### Structure
+```
+┌──────────────────────────────────────┐
+│ Modal Title                        ✕ │
+│ ──────────────────────────────────── │
+│                                      │
+│ Label                                │
+│ ┌──────────────────────────────────┐ │
+│ │ Input value                      │ │
+│ └──────────────────────────────────┘ │
+│                                      │
+│ Label                                │
+│ ┌──────────────────────────────────┐ │
+│ │ Input value                      │ │
+│ └──────────────────────────────────┘ │
+│                                      │
+│                    [ Save ] [Cancel] │
+└──────────────────────────────────────┘
+```
+
+### Styling rules
+- **Title**: 22px, weight 400, var(--gz-text-primary)
+- **Close button**: X icon (fa-xmark), top-right, var(--gz-text-light)
+- **Divider**: 1px solid var(--gz-divider) below header
+- **Labels**: 14px, weight 600, var(--gz-primary-dark) (#0a5183) — stacked above inputs, not floating
+- **Inputs**: full-width outlined, 40px height, 14px font, MUI hover/focus states
+- **Save button**: var(--gz-primary) background, white text
+- **Cancel button**: var(--gz-text-secondary) background (#6B7280), white text — **never use teal for cancel**
+- **Danger button** (delete): var(--gz-error) background, white text
+- **Button alignment**: right-aligned (justify-content: flex-end)
+- **Modal width**: 460px, border-radius 8px, padding 28px 32px
+- **Overlay**: rgba(0,0,0,0.4) backdrop
+
+## Buttons
+
+| Variant | Background | Text | Use |
+|---------|-----------|------|-----|
+| Primary | var(--gz-primary) | white | Main action (Save, Add, Submit) |
+| Cancel / Secondary | var(--gz-text-secondary) | white | Cancel, dismiss, close |
+| Danger | var(--gz-error) | white | Delete, remove, destructive actions |
+| Ghost | white + 1px var(--gz-border) | var(--gz-text-secondary) | Tertiary actions (+ CREATE, filter toggles) |
+
+**Never use teal (--gz-secondary) for buttons.** Teal is for navigation and active tab states only.
+
+## Avatars / assignee badges
+
+Use muted tinted backgrounds, not solid color fills. Each team member has an assigned color.
+
+```css
+/* Muted avatar — tinted background, colored initials */
+background: {memberColor}22;   /* color + 22 hex alpha = ~13% opacity */
+color: {memberColor};           /* full color for initials text */
+border-radius: 50%;
+font-size: 9px;
+font-weight: 600;
+```
+
+Do not use solid saturated backgrounds for avatars — they're too visually heavy for the Gazebo aesthetic. The tinted approach keeps avatars identifiable without competing with status pills and data values.
+
+## Overdue indicator
+
+Use a custom alarm clock SVG icon in var(--gz-error) for overdue dates. Do not use Font Awesome's fa-alarm-clock (it requires FA Pro). The custom SVG is embedded inline:
+
+```
+Size: 10x11px (list/table views), 9x10px (board cards)
+Color: currentColor (inherits from parent, which should be var(--gz-error))
+Vertical-align: -1px
+Only show on overdue dates — never on future or completed task dates
+```
+
+## Inline editing
+
+Editable fields should give visual cues on hover to indicate interactivity:
+
+```css
+/* Hover cue for editable text */
+.editable:hover {
+  background: var(--gz-bg-page);  /* subtle gray highlight */
+  border-radius: 2px;
+}
+
+/* Active edit state — inline input */
+.edit-input {
+  border: 1px solid var(--gz-primary);
+  border-radius: var(--gz-radius);
+  font-size: 13px;
+  font-family: var(--gz-font);
+}
+```
+
+- Task descriptions: click or double-click to edit inline
+- Due dates: click to open date picker
+- Assignees: click to open dropdown
+
+## Search highlighting
+
+When search/filter is active, highlight matching text with a warm yellow background:
+
+```css
+mark.search-match {
+  background: #fff3cd;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+```
+
+Apply highlighting to task descriptions, project names, assignee names, and site names across all views (list, table, board).
+
 ## Figma vs. code reality
 
 The Gazebo DSM lives in a Figma MUI kit. The Figma kit is a static visual reference — it cannot represent interactive behavior. When building prototypes or production code, follow these rules:

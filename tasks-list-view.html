@@ -212,23 +212,30 @@ body { font-family: var(--gz-font); font-size: 14px; color: var(--gz-text-primar
 /* ─── Modals ─── */
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; }
 .overlay.hidden { display: none; }
-.modal { background: white; border-radius: var(--gz-radius); box-shadow: var(--gz-shadow-4); padding: 24px; width: 420px; max-width: 90vw; }
-.modal h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
-.modal-field { position: relative; margin-bottom: 14px; }
-.modal-field label { display: block; font-size: 12px; color: var(--gz-text-secondary); margin-bottom: 4px; }
-.modal-input { width: 100%; height: 36px; border: 1px solid var(--gz-border); border-radius: var(--gz-radius); padding: 0 10px; font-size: 13px; font-family: var(--gz-font); color: var(--gz-text-primary); outline: none; transition: border-color 0.2s; }
+.modal { background: white; border-radius: 8px; box-shadow: var(--gz-shadow-4); padding: 28px 32px; width: 460px; max-width: 90vw; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; }
+.modal-header h2 { font-size: 22px; font-weight: 400; color: var(--gz-text-primary); }
+.modal-close { background: none; border: none; cursor: pointer; color: var(--gz-text-light); font-size: 18px; padding: 4px; display: flex; }
+.modal-close:hover { color: var(--gz-text-primary); }
+.modal-divider { border: none; border-top: 1px solid var(--gz-divider); margin: 14px 0 18px; }
+.modal h2 { font-size: 22px; font-weight: 400; margin-bottom: 16px; }
+.modal-field { position: relative; margin-bottom: 16px; }
+.modal-field label { display: block; font-size: 14px; font-weight: 600; color: var(--gz-primary-dark); margin-bottom: 6px; }
+.modal-input { width: 100%; height: 40px; border: 1px solid var(--gz-border); border-radius: var(--gz-radius); padding: 0 12px; font-size: 14px; font-family: var(--gz-font); color: var(--gz-text-primary); outline: none; transition: border-color 0.2s; }
 .modal-input:hover { border-color: var(--gz-text-primary); }
-.modal-input:focus { border-color: var(--gz-primary); border-width: 2px; padding: 0 9px; }
-.modal-textarea { width: 100%; height: 72px; border: 1px solid var(--gz-border); border-radius: var(--gz-radius); padding: 8px 10px; font-size: 13px; font-family: var(--gz-font); color: var(--gz-text-primary); resize: none; outline: none; transition: border-color 0.2s; }
+.modal-input:focus { border-color: var(--gz-primary); border-width: 2px; padding: 0 11px; }
+.modal-input::placeholder { color: var(--gz-text-disabled); }
+.modal-textarea { width: 100%; height: 80px; border: 1px solid var(--gz-border); border-radius: var(--gz-radius); padding: 10px 12px; font-size: 14px; font-family: var(--gz-font); color: var(--gz-text-primary); resize: none; outline: none; transition: border-color 0.2s; }
 .modal-textarea:hover { border-color: var(--gz-text-primary); }
-.modal-textarea:focus { border-color: var(--gz-primary); border-width: 2px; padding: 7px 9px; }
+.modal-textarea:focus { border-color: var(--gz-primary); border-width: 2px; padding: 9px 11px; }
+.modal-textarea::placeholder { color: var(--gz-text-disabled); }
 .modal-checkbox { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; margin-bottom: 14px; }
 .modal-checkbox input { accent-color: var(--gz-primary); }
-.modal-actions { display: flex; gap: 10px; margin-top: 18px; }
-.modal-actions .btn-primary { flex: 1; justify-content: center; }
-.btn-secondary { flex: 1; background: none; color: var(--gz-text-secondary); border: 1px solid var(--gz-border); border-radius: var(--gz-radius); padding: 7px 14px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--gz-font); }
-.btn-secondary:hover { background: var(--gz-bg-page); }
-.btn-danger { flex: 1; background: var(--gz-error); color: white; border: none; border-radius: var(--gz-radius); padding: 7px 14px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--gz-font); justify-content: center; display: flex; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+.modal-actions .btn-primary { min-width: 90px; justify-content: center; }
+.btn-secondary { background: var(--gz-text-secondary); color: white; border: none; border-radius: var(--gz-radius); padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--gz-font); }
+.btn-secondary:hover { background: var(--gz-text-primary); }
+.btn-danger { background: var(--gz-error); color: white; border: none; border-radius: var(--gz-radius); padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--gz-font); justify-content: center; display: flex; }
 
 /* ─── Toast ─── */
 .toast { position: fixed; top: 16px; right: 16px; background: var(--gz-bg-card); border: 1px solid var(--gz-border); border-radius: var(--gz-radius); box-shadow: var(--gz-shadow-3); padding: 12px 18px; font-size: 13px; z-index: 2000; transform: translateX(120%); transition: transform 0.3s ease; }
@@ -258,19 +265,31 @@ mark.search-match { background: #fff3cd; color: inherit; border-radius: 2px; pad
 
 /* ─── Board View ─── */
 .board-wrap { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.board-col { background: var(--gz-bg-card); border: 1px solid var(--gz-border); border-radius: var(--gz-radius); min-height: 200px; }
+.board-col { background: var(--gz-bg-card); border: 1px solid var(--gz-border); border-radius: var(--gz-radius); min-height: 200px; display: flex; flex-direction: column; }
 .board-col-header { padding: 12px 16px; border-bottom: 1px solid var(--gz-border-light); display: flex; align-items: center; justify-content: space-between; }
-.board-col-title { font-size: 13px; font-weight: 600; color: var(--gz-text-primary); display: flex; align-items: center; gap: 8px; }
+.board-col-title { font-size: 14px; font-weight: 600; color: var(--gz-text-primary); }
 .board-col-count { font-size: 11px; color: var(--gz-text-light); background: var(--gz-bg-page); padding: 1px 8px; border-radius: 10px; }
-.board-col-body { padding: 8px; }
-.board-card { background: var(--gz-bg-page); border: 1px solid var(--gz-border-light); border-radius: var(--gz-radius); padding: 10px 12px; margin-bottom: 6px; cursor: default; transition: box-shadow 0.15s; }
+.board-col-body { padding: 8px; flex: 1; transition: background 0.15s, border-color 0.15s; border-radius: 0 0 var(--gz-radius) var(--gz-radius); }
+.board-col-body.drag-over { background: #e8f4fc; outline: 2px dashed var(--gz-primary); outline-offset: -4px; }
+.board-card { background: white; border: 1px solid var(--gz-border-light); border-radius: var(--gz-radius); padding: 10px 12px; margin-bottom: 6px; cursor: grab; transition: box-shadow 0.15s, opacity 0.15s; }
 .board-card:hover { box-shadow: var(--gz-shadow-2); border-color: var(--gz-border); }
-.board-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-.board-card-desc { font-size: 13px; color: var(--gz-text-primary); margin-bottom: 6px; }
+.board-card:active { cursor: grabbing; }
+.board-card.dragging { opacity: 0.35; box-shadow: none; }
+.board-card-top { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+.board-card-top .btn-star { flex-shrink: 0; margin-top: 1px; }
+.board-card-desc { font-size: 13px; color: var(--gz-text-primary); flex: 1; line-height: 1.4; }
 .board-card-desc.done { text-decoration: line-through; color: var(--gz-text-light); }
-.board-card-meta { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--gz-text-light); }
-.board-card-project { font-size: 11px; color: var(--gz-text-primary); font-weight: 600; cursor: pointer; }
+.board-card-overflow { flex-shrink: 0; margin-left: auto; }
+.board-card-project { font-size: 11px; color: var(--gz-text-secondary); cursor: pointer; margin-bottom: 6px; padding-left: 20px; }
 .board-card-project:hover { color: var(--gz-primary); }
+.board-card-bottom { display: flex; align-items: center; justify-content: space-between; padding-left: 20px; }
+.board-card-assignee { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gz-text-primary); }
+.board-card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.board-card-due { font-size: 11px; color: var(--gz-text-primary); display: flex; align-items: center; gap: 4px; }
+.board-card-due.overdue { color: var(--gz-error); font-weight: 500; }
+.board-card-site { font-size: 10px; color: var(--gz-text-secondary); }
+.board-card-site-inline { color: var(--gz-text-light); font-weight: 400; font-size: 11px; }
+.board-card-site-inline::before { content: '\b7\a0'; }
 
 /* ─── Empty state ─── */
 .empty-state { text-align: center; padding: 48px 24px; color: var(--gz-text-light); font-size: 13px; }
@@ -364,8 +383,12 @@ mark.search-match { background: #fff3cd; color: inherit; border-radius: 2px; pad
 <!-- ═══ Add Task Modal ═══ -->
 <div class="overlay hidden" id="addModal">
   <div class="modal">
-    <h2>Add Task</h2>
-    <div class="modal-field"><label>Description</label><input class="modal-input" id="newDesc" placeholder="Task description"></div>
+    <div class="modal-header">
+      <h2 style="margin:0">Add Task</h2>
+      <button class="modal-close" onclick="hideModal('addModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <hr class="modal-divider">
+    <div class="modal-field"><label>Description</label><input class="modal-input" id="newDesc" placeholder="Enter task description..."></div>
     <div class="modal-field"><label>Site</label><select class="modal-input" id="newSite"></select></div>
     <div class="modal-field"><label>Task Type</label>
       <select class="modal-input" id="newType" onchange="toggleProjectField()">
@@ -385,7 +408,7 @@ mark.search-match { background: #fff3cd; color: inherit; border-radius: 2px; pad
     </div>
     <label class="modal-checkbox"><input type="checkbox" id="newPri"> Mark as priority</label>
     <div class="modal-actions">
-      <button class="btn-primary" onclick="addTask()">Add Task</button>
+      <button class="btn-primary" onclick="addTask()">Save</button>
       <button class="btn-secondary" onclick="hideModal('addModal')">Cancel</button>
     </div>
   </div>
@@ -394,7 +417,11 @@ mark.search-match { background: #fff3cd; color: inherit; border-radius: 2px; pad
 <!-- ═══ Delete Confirm Modal ═══ -->
 <div class="overlay hidden" id="deleteModal">
   <div class="modal">
-    <h2>Delete Task</h2>
+    <div class="modal-header">
+      <h2 style="margin:0">Delete Task</h2>
+      <button class="modal-close" onclick="hideModal('deleteModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <hr class="modal-divider">
     <p style="font-size:14px;color:var(--gz-text-secondary);margin-bottom:8px" id="deleteMsg"></p>
     <div class="modal-actions">
       <button class="btn-danger" onclick="confirmDelete()">Delete</button>
@@ -406,12 +433,17 @@ mark.search-match { background: #fff3cd; color: inherit; border-radius: 2px; pad
 <!-- ═══ Share Modal ═══ -->
 <div class="overlay hidden" id="shareModal">
   <div class="modal">
-    <h2>Share Task</h2>
-    <p style="font-size:13px;color:var(--gz-text-secondary);margin-bottom:12px" id="shareTaskName"></p>
+    <div class="modal-header">
+      <h2 style="margin:0">Share Task</h2>
+      <button class="modal-close" onclick="hideModal('shareModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <hr class="modal-divider">
+    <div id="shareTaskCard" style="background:var(--gz-bg-page);border:1px solid var(--gz-border-light);border-radius:var(--gz-radius);padding:12px 14px;margin-bottom:16px">
+    </div>
     <div class="modal-field"><label>Recipient Email</label><input class="modal-input" id="shareEmail" placeholder="name@example.com"></div>
     <div class="modal-field"><label>Message (optional)</label><textarea class="modal-textarea" id="shareMsg" placeholder="Add a note..."></textarea></div>
     <div class="modal-actions">
-      <button class="btn-primary" onclick="sendShare()">Send Email</button>
+      <button class="btn-primary" onclick="sendShare()">Save</button>
       <button class="btn-secondary" onclick="hideModal('shareModal')">Cancel</button>
     </div>
   </div>
@@ -731,15 +763,19 @@ function renderBoard(filtered, el) {
     { key: 'complete', label: 'Complete' }
   ];
 
+  var alarmSvg = '<svg width="9" height="10" viewBox="0 0 24 25" fill="currentColor" style="vertical-align:-1px"><path d="M18.89 2.34c-.28.1-.56.1-.8-.04-.23-.14-.51-.28-.8-.42-.51-.19-.65-.84-.18-1.12C17.81.28 18.66 0 19.55 0 21.98 0 24 2.02 24 4.45c0 .66-.14 1.22-.38 1.78-.19.47-.84.42-1.12 0-.19-.23-.38-.51-.56-.75-.19-.19-.24-.47-.19-.75 0-.09 0-.19 0-.28 0-1.22-.98-2.2-2.2-2.2-.23 0-.47.05-.66.09zM1.55 6.23c-.33.42-.98.47-1.17 0C.14 5.67 0 5.06 0 4.45 0 2.02 2.02 0 4.45 0c.94 0 1.78.28 2.48.75.42.28.28.94-.23 1.12-.28.14-.56.28-.8.42-.23.14-.51.14-.8.05-.19-.05-.42-.09-.66-.09-1.22 0-2.2.98-2.2 2.2 0 .09 0 .19 0 .28.05.28 0 .52-.14.75-.23.23-.42.47-.56.75zM20.25 13.5c0-4.55-3.7-8.25-8.25-8.25S3.75 8.95 3.75 13.5s3.7 8.25 8.25 8.25 8.25-3.7 8.25-8.25zM18.61 21.7c-1.83 1.41-4.12 2.3-6.61 2.3s-4.78-.89-6.56-2.3L3.42 23.67c-.42.42-1.17.42-1.59 0-.42-.42-.42-1.17 0-1.59l2.02-1.97C2.39 18.28 1.5 15.98 1.5 13.5 1.5 7.69 6.19 3 12 3s10.5 4.69 10.5 10.5c0 2.48-.89 4.78-2.3 6.61l1.97 1.97c.42.42.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-1.97-2.02v.05zM13.12 8.62v4.41l1.92 1.92c.42.47.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-2.25-2.25c-.19-.19-.33-.52-.33-.8V8.62c0-.61.52-1.12 1.12-1.12.61 0 1.12.52 1.12 1.12z"/></svg>';
+
+  var alarmSvg = '<svg width="9" height="10" viewBox="0 0 24 25" fill="currentColor" style="vertical-align:-1px"><path d="M18.89 2.34c-.28.1-.56.1-.8-.04-.23-.14-.51-.28-.8-.42-.51-.19-.65-.84-.18-1.12C17.81.28 18.66 0 19.55 0 21.98 0 24 2.02 24 4.45c0 .66-.14 1.22-.38 1.78-.19.47-.84.42-1.12 0-.19-.23-.38-.51-.56-.75-.19-.19-.24-.47-.19-.75 0-.09 0-.19 0-.28 0-1.22-.98-2.2-2.2-2.2-.23 0-.47.05-.66.09zM1.55 6.23c-.33.42-.98.47-1.17 0C.14 5.67 0 5.06 0 4.45 0 2.02 2.02 0 4.45 0c.94 0 1.78.28 2.48.75.42.28.28.94-.23 1.12-.28.14-.56.28-.8.42-.23.14-.51.14-.8.05-.19-.05-.42-.09-.66-.09-1.22 0-2.2.98-2.2 2.2 0 .09 0 .19 0 .28.05.28 0 .52-.14.75-.23.23-.42.47-.56.75zM20.25 13.5c0-4.55-3.7-8.25-8.25-8.25S3.75 8.95 3.75 13.5s3.7 8.25 8.25 8.25 8.25-3.7 8.25-8.25zM18.61 21.7c-1.83 1.41-4.12 2.3-6.61 2.3s-4.78-.89-6.56-2.3L3.42 23.67c-.42.42-1.17.42-1.59 0-.42-.42-.42-1.17 0-1.59l2.02-1.97C2.39 18.28 1.5 15.98 1.5 13.5 1.5 7.69 6.19 3 12 3s10.5 4.69 10.5 10.5c0 2.48-.89 4.78-2.3 6.61l1.97 1.97c.42.42.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-1.97-2.02v.05zM13.12 8.62v4.41l1.92 1.92c.42.47.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-2.25-2.25c-.19-.19-.33-.52-.33-.8V8.62c0-.61.52-1.12 1.12-1.12.61 0 1.12.52 1.12 1.12z"/></svg>';
+
   var h = '<div class="board-wrap">';
   columns.forEach(function(col) {
     var colTasks = filtered.filter(function(t){ return t.s === col.key; });
     h += '<div class="board-col">';
     h += '<div class="board-col-header">';
-    h += '<span class="board-col-title">'+pillHTML(col.key, false)+' </span>';
+    h += '<span class="board-col-title">'+col.label+'</span>';
     h += '<span class="board-col-count">'+colTasks.length+'</span>';
     h += '</div>';
-    h += '<div class="board-col-body">';
+    h += '<div class="board-col-body" data-status="'+col.key+'">';
 
     if (colTasks.length === 0) {
       h += '<div class="empty-state" style="padding:24px;font-size:12px">No tasks</div>';
@@ -751,20 +787,22 @@ function renderBoard(filtered, el) {
         var proj = t.pid ? getProject(t.pid) : null;
         var site = getSite(t.siteId);
 
-        h += '<div class="board-card">';
+        h += '<div class="board-card" draggable="true" data-task-id="'+t.id+'">';
         h += '<div class="board-card-top">';
         h += '<button class="btn-star'+(t.pri?' on':'')+'" onclick="togglePri('+t.id+')"><i class="fa-solid fa-star"></i></button>';
-        h += '<div class="overflow-wrap"><button class="overflow-btn" onclick="toggleOverflow(this,event)" style="font-size:14px;padding:2px 4px"><i class="fa-solid fa-ellipsis-vertical"></i></button>';
+        h += '<div class="board-card-desc'+(done?' done':'')+'">'+hl(t.d)+'</div>';
+        h += '<div class="board-card-overflow overflow-wrap"><button class="overflow-btn" onclick="toggleOverflow(this,event)" style="font-size:14px;padding:2px 4px"><i class="fa-solid fa-ellipsis-vertical"></i></button>';
         h += '<div class="overflow-menu"><div class="overflow-item" onclick="openShare('+t.id+')"><i class="fa-regular fa-envelope"></i> Share</div>';
         h += '<div class="overflow-item danger" onclick="openDelete('+t.id+')"><i class="fa-regular fa-trash-can"></i> Delete</div></div></div>';
         h += '</div>';
-        h += '<div class="board-card-desc'+(done?' done':'')+'">'+hl(t.d)+'</div>';
-        if (proj) h += '<div class="board-card-project">'+hl('#'+proj.num+' '+proj.name)+'</div>';
-        h += '<div class="board-card-meta">';
-        if (tm) h += '<span><span class="avatar-badge" style="background:'+tm.color+'22;color:'+tm.color+';width:16px;height:16px;font-size:7px;display:inline-flex">'+tm.initials+'</span> '+hl(tm.name)+'</span>';
-        else h += '<span style="color:var(--gz-text-disabled);font-style:italic">Unassigned</span>';
-        h += '<span class="'+(od?'overdue':'')+'">'+fmtDate(t.dt)+(od?' <svg width="9" height="10" viewBox="0 0 24 25" fill="currentColor" style="vertical-align:-1px"><path d="M18.89 2.34c-.28.1-.56.1-.8-.04-.23-.14-.51-.28-.8-.42-.51-.19-.65-.84-.18-1.12C17.81.28 18.66 0 19.55 0 21.98 0 24 2.02 24 4.45c0 .66-.14 1.22-.38 1.78-.19.47-.84.42-1.12 0-.19-.23-.38-.51-.56-.75-.19-.19-.24-.47-.19-.75 0-.09 0-.19 0-.28 0-1.22-.98-2.2-2.2-2.2-.23 0-.47.05-.66.09zM1.55 6.23c-.33.42-.98.47-1.17 0C.14 5.67 0 5.06 0 4.45 0 2.02 2.02 0 4.45 0c.94 0 1.78.28 2.48.75.42.28.28.94-.23 1.12-.28.14-.56.28-.8.42-.23.14-.51.14-.8.05-.19-.05-.42-.09-.66-.09-1.22 0-2.2.98-2.2 2.2 0 .09 0 .19 0 .28.05.28 0 .52-.14.75-.23.23-.42.47-.56.75zM20.25 13.5c0-4.55-3.7-8.25-8.25-8.25S3.75 8.95 3.75 13.5s3.7 8.25 8.25 8.25 8.25-3.7 8.25-8.25zM18.61 21.7c-1.83 1.41-4.12 2.3-6.61 2.3s-4.78-.89-6.56-2.3L3.42 23.67c-.42.42-1.17.42-1.59 0-.42-.42-.42-1.17 0-1.59l2.02-1.97C2.39 18.28 1.5 15.98 1.5 13.5 1.5 7.69 6.19 3 12 3s10.5 4.69 10.5 10.5c0 2.48-.89 4.78-2.3 6.61l1.97 1.97c.42.42.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-1.97-2.02v.05zM13.12 8.62v4.41l1.92 1.92c.42.47.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-2.25-2.25c-.19-.19-.33-.52-.33-.8V8.62c0-.61.52-1.12 1.12-1.12.61 0 1.12.52 1.12 1.12z"/></svg>':'')+'</span>';
-        h += '<span>'+site.name+'</span>';
+        h += '<div class="board-card-project">'+(proj ? hl('#'+proj.num+' '+proj.name)+' <span class="board-card-site-inline">'+site.name+'</span>' : '<span class="board-card-site-inline">'+site.name+'</span>')+'</div>';
+        h += '<div class="board-card-bottom">';
+        if (tm) {
+          h += '<span class="board-card-assignee"><span class="avatar-badge" style="background:'+tm.color+'22;color:'+tm.color+';width:18px;height:18px;font-size:8px;display:inline-flex">'+tm.initials+'</span> '+hl(tm.name)+'</span>';
+        } else {
+          h += '<span class="board-card-assignee" style="color:var(--gz-text-disabled);font-style:italic">Unassigned</span>';
+        }
+        h += '<span class="board-card-due'+(od?' overdue':'')+'">'+(od?alarmSvg+' ':'')+fmtDate(t.dt)+'</span>';
         h += '</div>';
         h += '</div>';
       });
@@ -773,6 +811,49 @@ function renderBoard(filtered, el) {
   });
   h += '</div>';
   el.innerHTML = h;
+  initBoardDragDrop();
+}
+
+// ─── DRAG & DROP ───
+function initBoardDragDrop() {
+  var cards = document.querySelectorAll('.board-card[draggable]');
+  var cols = document.querySelectorAll('.board-col-body[data-status]');
+
+  cards.forEach(function(card) {
+    card.addEventListener('dragstart', function(e) {
+      e.dataTransfer.setData('text/plain', card.dataset.taskId);
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(function(){ card.classList.add('dragging'); }, 0);
+    });
+    card.addEventListener('dragend', function() {
+      card.classList.remove('dragging');
+      cols.forEach(function(c){ c.classList.remove('drag-over'); });
+    });
+  });
+
+  cols.forEach(function(col) {
+    col.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      col.classList.add('drag-over');
+    });
+    col.addEventListener('dragleave', function(e) {
+      if (!col.contains(e.relatedTarget)) col.classList.remove('drag-over');
+    });
+    col.addEventListener('drop', function(e) {
+      e.preventDefault();
+      col.classList.remove('drag-over');
+      var taskId = parseInt(e.dataTransfer.getData('text/plain'));
+      var newStatus = col.dataset.status;
+      var task = tasks.find(function(t){ return t.id === taskId; });
+      if (task && task.s !== newStatus) {
+        task.s = newStatus;
+        var labels = {todo:'To Do','in-progress':'In Progress',complete:'Complete'};
+        showToast('Moved to ' + labels[newStatus]);
+        render();
+      }
+    });
+  });
 }
 
 function taskCardHTML(t) {
@@ -935,7 +1016,29 @@ function confirmDelete() {
 function openShare(id) {
   shareTarget = id;
   var t = tasks.find(function(x){return x.id===id;});
-  document.getElementById('shareTaskName').textContent = '"'+t.d+'"';
+  var tm = getTeam(t.a);
+  var proj = t.pid ? getProject(t.pid) : null;
+  var site = getSite(t.siteId);
+  var od = isOverdue(t);
+  var statusLabels = {todo:'To Do','in-progress':'In Progress',complete:'Complete'};
+
+  var c = '<div style="font-size:14px;font-weight:600;color:var(--gz-text-primary);margin-bottom:6px">'+t.d+'</div>';
+  c += '<div style="font-size:11px;color:var(--gz-text-light);margin-bottom:10px">';
+  c += (proj ? '#'+proj.num+' '+proj.name : 'Site Task');
+  c += ' &middot; '+site.name;
+  c += ' &middot; '+statusLabels[t.s];
+  if (t.pri) c += ' &middot; <i class="fa-solid fa-star" style="color:#f5a623;font-size:10px"></i> Priority';
+  c += '</div>';
+  c += '<div style="display:flex;align-items:center;justify-content:space-between;font-size:12px">';
+  c += '<div style="color:var(--gz-text-primary)">';
+  if (tm) { c += tm.name; } else { c += '<span style="color:var(--gz-text-disabled);font-style:italic">Unassigned</span>'; }
+  c += '</div>';
+  c += '<div style="color:'+(od?'var(--gz-error)':'var(--gz-text-primary)')+'">'+fmtDate(t.dt)+'</div>';
+  c += '</div>';
+
+  document.getElementById('shareTaskCard').innerHTML = c;
+  document.getElementById('shareEmail').value = '';
+  document.getElementById('shareMsg').value = '';
   document.getElementById('shareModal').classList.remove('hidden');
 }
 function sendShare() {
