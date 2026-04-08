@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gazebo Tasks - Modals</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 14px; color: #333840; background: #F7F7F8; line-height: 1.43; width: 1280px; padding: 40px 0; }
+
+/* ─── Modal Section ─── */
+.modal-section { display: flex; align-items: center; justify-content: center; min-height: 500px; margin-bottom: 40px; position: relative; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.4); border-radius: 8px; }
+.modal { position: relative; background: #ffffff; border-radius: 8px; box-shadow: 0 8px 24px 0 rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.05); width: 460px; padding: 28px 32px; z-index: 1; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; }
+.modal-title { font-size: 18px; font-weight: 700; color: #333840; }
+.modal-close { background: none; border: none; color: #8a96a3; font-size: 18px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; }
+.modal-divider { height: 1px; background: #e0e3ea; margin: 16px 0 20px 0; }
+
+/* ─── Form Fields ─── */
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 14px; font-weight: 700; color: #0a5183; margin-bottom: 6px; }
+.form-input { width: 100%; height: 38px; padding: 0 12px; border: 1px solid #ebebed; border-radius: 4px; font-size: 13px; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; color: #333840; background: white; }
+.form-input::placeholder { color: #b0b5bd; }
+.form-select { width: 100%; height: 38px; padding: 0 12px; border: 1px solid #ebebed; border-radius: 4px; font-size: 13px; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; color: #333840; background: white; appearance: auto; }
+.form-textarea { width: 100%; min-height: 80px; padding: 8px 12px; border: 1px solid #ebebed; border-radius: 4px; font-size: 13px; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; color: #333840; background: white; resize: vertical; }
+.form-textarea::placeholder { color: #b0b5bd; }
+.form-checkbox { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #333840; margin-top: 4px; }
+.form-checkbox input { accent-color: #017bb1; width: 16px; height: 16px; }
+
+/* ─── Buttons ─── */
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 24px; }
+.btn-save { background: #017bb1; color: white; border: none; border-radius: 4px; padding: 8px 20px; font-size: 13px; font-weight: 500; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; }
+.btn-cancel { background: #6B7280; color: white; border: none; border-radius: 4px; padding: 8px 20px; font-size: 13px; font-weight: 500; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; }
+.btn-delete { background: #cf4626; color: white; border: none; border-radius: 4px; padding: 8px 20px; font-size: 13px; font-weight: 500; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; }
+
+/* ─── Share Task Summary Card ─── */
+.share-summary { background: #F7F7F8; border: 1px solid #ebebed; border-radius: 4px; padding: 12px 14px; margin-bottom: 20px; }
+.share-summary-title { font-size: 14px; font-weight: 700; color: #333840; margin-bottom: 4px; }
+.share-summary-context { font-size: 11px; color: #8a96a3; margin-bottom: 8px; }
+.share-summary-row { display: flex; align-items: center; justify-content: space-between; }
+.share-summary-assignee { font-size: 12px; color: #333840; }
+.share-summary-date { font-size: 12px; color: #333840; }
+.share-summary-date.overdue { color: #cf4626; }
+
+/* ─── Delete modal body ─── */
+.modal-body { font-size: 14px; color: #333840; line-height: 1.5; }
+
+/* Section label */
+.section-label { text-align: center; font-size: 12px; font-weight: 600; color: #8a96a3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<!-- Modal 1: Add Task -->
+<div class="section-label">Add Task Modal</div>
+<div class="modal-section" style="min-height:620px">
+  <div class="modal-backdrop"></div>
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add Task</span>
+      <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-divider"></div>
+
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <input class="form-input" type="text" placeholder="Enter task description...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Site</label>
+      <select class="form-select">
+        <option>Warehouse A</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Task Type</label>
+      <select class="form-select">
+        <option>Project Task</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Project</label>
+      <select class="form-select">
+        <option>#101 Solar Panel Installation</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Assignee</label>
+      <select class="form-select">
+        <option>Unassigned</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Due Date</label>
+      <input class="form-input" type="text" placeholder="mm/dd/yyyy">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select">
+        <option>To Do</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-checkbox">
+        <input type="checkbox"> Mark as priority
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel">Cancel</button>
+      <button class="btn-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2: Delete Confirmation -->
+<div class="section-label">Delete Task Modal</div>
+<div class="modal-section" style="min-height:260px">
+  <div class="modal-backdrop"></div>
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Delete Task</span>
+      <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-body">
+      Are you sure you want to delete &ldquo;Obtain building permits&rdquo;?
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel">Cancel</button>
+      <button class="btn-delete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 3: Share Task -->
+<div class="section-label">Share Task Modal</div>
+<div class="modal-section" style="min-height:440px">
+  <div class="modal-backdrop"></div>
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Share Task</span>
+      <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-divider"></div>
+
+    <div class="share-summary">
+      <div class="share-summary-title">Obtain building permits</div>
+      <div class="share-summary-context">#101 Solar Panel Installation &middot; Warehouse A &middot; In Progress</div>
+      <div class="share-summary-row">
+        <span class="share-summary-assignee">Pep Guardiola</span>
+        <span class="share-summary-date overdue">02/10/2026 <svg width="10" height="11" viewBox="0 0 24 25" fill="currentColor" style="vertical-align:-1px;margin-left:3px"><path d="M18.89 2.34c-.28.1-.56.1-.8-.04-.23-.14-.51-.28-.8-.42-.51-.19-.65-.84-.18-1.12C17.81.28 18.66 0 19.55 0 21.98 0 24 2.02 24 4.45c0 .66-.14 1.22-.38 1.78-.19.47-.84.42-1.12 0-.19-.23-.38-.51-.56-.75-.19-.19-.24-.47-.19-.75 0-.09 0-.19 0-.28 0-1.22-.98-2.2-2.2-2.2-.23 0-.47.05-.66.09zM1.55 6.23c-.33.42-.98.47-1.17 0C.14 5.67 0 5.06 0 4.45 0 2.02 2.02 0 4.45 0c.94 0 1.78.28 2.48.75.42.28.28.94-.23 1.12-.28.14-.56.28-.8.42-.23.14-.51.14-.8.05-.19-.05-.42-.09-.66-.09-1.22 0-2.2.98-2.2 2.2 0 .09 0 .19 0 .28.05.28 0 .52-.14.75-.23.23-.42.47-.56.75zM20.25 13.5c0-4.55-3.7-8.25-8.25-8.25S3.75 8.95 3.75 13.5s3.7 8.25 8.25 8.25 8.25-3.7 8.25-8.25zM18.61 21.7c-1.83 1.41-4.12 2.3-6.61 2.3s-4.78-.89-6.56-2.3L3.42 23.67c-.42.42-1.17.42-1.59 0-.42-.42-.42-1.17 0-1.59l2.02-1.97C2.39 18.28 1.5 15.98 1.5 13.5 1.5 7.69 6.19 3 12 3s10.5 4.69 10.5 10.5c0 2.48-.89 4.78-2.3 6.61l1.97 1.97c.42.42.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-1.97-2.02v.05zM13.12 8.62v4.41l1.92 1.92c.42.47.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-2.25-2.25c-.19-.19-.33-.52-.33-.8V8.62c0-.61.52-1.12 1.12-1.12.61 0 1.12.52 1.12 1.12z"/></svg></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Recipient Email</label>
+      <input class="form-input" type="email" placeholder="name@example.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message (optional)</label>
+      <textarea class="form-textarea" placeholder="Add a note..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel">Cancel</button>
+      <button class="btn-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 4: Share Task (Priority variant) -->
+<div class="section-label">Share Task Modal (Priority Variant)</div>
+<div class="modal-section" style="min-height:440px">
+  <div class="modal-backdrop"></div>
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Share Task</span>
+      <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-divider"></div>
+
+    <div class="share-summary">
+      <div class="share-summary-title">Install 50 solar panels on building roof</div>
+      <div class="share-summary-context">#101 Solar Panel Installation &middot; Warehouse A &middot; To Do &middot; <span style="color:#f5a623"><i class="fa-solid fa-star" style="font-size:10px"></i></span> Priority</div>
+      <div class="share-summary-row">
+        <span class="share-summary-assignee">Marcus Johnson</span>
+        <span class="share-summary-date overdue">03/25/2026 <svg width="10" height="11" viewBox="0 0 24 25" fill="currentColor" style="vertical-align:-1px;margin-left:3px"><path d="M18.89 2.34c-.28.1-.56.1-.8-.04-.23-.14-.51-.28-.8-.42-.51-.19-.65-.84-.18-1.12C17.81.28 18.66 0 19.55 0 21.98 0 24 2.02 24 4.45c0 .66-.14 1.22-.38 1.78-.19.47-.84.42-1.12 0-.19-.23-.38-.51-.56-.75-.19-.19-.24-.47-.19-.75 0-.09 0-.19 0-.28 0-1.22-.98-2.2-2.2-2.2-.23 0-.47.05-.66.09zM1.55 6.23c-.33.42-.98.47-1.17 0C.14 5.67 0 5.06 0 4.45 0 2.02 2.02 0 4.45 0c.94 0 1.78.28 2.48.75.42.28.28.94-.23 1.12-.28.14-.56.28-.8.42-.23.14-.51.14-.8.05-.19-.05-.42-.09-.66-.09-1.22 0-2.2.98-2.2 2.2 0 .09 0 .19 0 .28.05.28 0 .52-.14.75-.23.23-.42.47-.56.75zM20.25 13.5c0-4.55-3.7-8.25-8.25-8.25S3.75 8.95 3.75 13.5s3.7 8.25 8.25 8.25 8.25-3.7 8.25-8.25zM18.61 21.7c-1.83 1.41-4.12 2.3-6.61 2.3s-4.78-.89-6.56-2.3L3.42 23.67c-.42.42-1.17.42-1.59 0-.42-.42-.42-1.17 0-1.59l2.02-1.97C2.39 18.28 1.5 15.98 1.5 13.5 1.5 7.69 6.19 3 12 3s10.5 4.69 10.5 10.5c0 2.48-.89 4.78-2.3 6.61l1.97 1.97c.42.42.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-1.97-2.02v.05zM13.12 8.62v4.41l1.92 1.92c.42.47.42 1.17 0 1.59-.42.42-1.17.42-1.59 0l-2.25-2.25c-.19-.19-.33-.52-.33-.8V8.62c0-.61.52-1.12 1.12-1.12.61 0 1.12.52 1.12 1.12z"/></svg></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Recipient Email</label>
+      <input class="form-input" type="email" placeholder="name@example.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message (optional)</label>
+      <textarea class="form-textarea" placeholder="Add a note..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel">Cancel</button>
+      <button class="btn-save">Save</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
